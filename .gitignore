@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environment
+venv/
+env/
+.env/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Local development
+*.log
+.env
+
+# Project specific
+chat_memories/
+Images/
+*.json
