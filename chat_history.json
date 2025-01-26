@@ -1,0 +1,1 @@
+[{"role": "User", "text": "hi", "timestamp": "2025-01-26 19:01:52"}, {"role": "System", "text": "Error: Server returned status code 404", "timestamp": "2025-01-26 19:01:52"}, {"role": "User", "text": "hello", "timestamp": "2025-01-26 19:06:10"}, {"role": "System", "text": "Error: Server returned status code 404", "timestamp": "2025-01-26 19:06:10"}]
