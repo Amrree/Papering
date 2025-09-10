@@ -108,50 +108,6 @@ class DraggableFrame(tk.Frame):
         if hasattr(self.master, 'window_states') and window_name in self.master.window_states:
             self.master.window_states[window_name].set(False)
             self.master.toggle_window(window_name)
-        
-        # Bind mouse events for dragging
-        self.title_bar.bind('<Button-1>', self.start_drag)
-        self.title_bar.bind('<B1-Motion>', self.drag)
-        
-        # Create resize handles
-        self.resize_handle = tk.Frame(self, width=10, height=10, bg='#808080', cursor='sizing')
-        self.resize_handle.place(relx=1.0, rely=1.0, anchor='se')
-        
-        # Bind resize events
-        self.resize_handle.bind('<Button-1>', self.start_resize)
-        self.resize_handle.bind('<B1-Motion>', self.resize)
-        
-        # Initialize drag and resize variables
-        self._drag_start_x = 0
-        self._drag_start_y = 0
-        self._resize_start_x = 0
-        self._resize_start_y = 0
-        self._initial_width = 0
-        self._initial_height = 0
-        
-    def start_drag(self, event):
-        self._drag_start_x = event.x
-        self._drag_start_y = event.y
-        
-    def drag(self, event):
-        x = self.winfo_x() - self._drag_start_x + event.x
-        y = self.winfo_y() - self._drag_start_y + event.y
-        self.place(x=x, y=y)
-        
-    def start_resize(self, event):
-        self._resize_start_x = event.x_root
-        self._resize_start_y = event.y_root
-        self._initial_width = self.winfo_width()
-        self._initial_height = self.winfo_height()
-        
-    def resize(self, event):
-        width_diff = event.x_root - self._resize_start_x
-        height_diff = event.y_root - self._resize_start_y
-        
-        new_width = max(200, self._initial_width + width_diff)  # Minimum width of 200
-        new_height = max(200, self._initial_height + height_diff)  # Minimum height of 200
-        
-        self.place(width=new_width, height=new_height)
 
 class RetroApp(tk.Tk):
     def __init__(self):
@@ -177,25 +133,6 @@ class RetroApp(tk.Tk):
         self.menu_bar.add_cascade(label="Layout", menu=layout_menu)
         layout_menu.add_command(label="Save Layout", command=self.save_layout)
         layout_menu.add_command(label="Load Layout", command=self.load_layout)
-        
-        # Create View menu
-        view_menu = tk.Menu(self.menu_bar, tearoff=0)
-        self.menu_bar.add_cascade(label="View", menu=view_menu)
-        
-        # Add window controls to View menu
-        view_menu.add_command(label="Show All Windows", command=self.show_all_windows)
-        view_menu.add_command(label="Hide All Windows", command=self.hide_all_windows)
-        view_menu.add_separator()
-        
-        # Add individual window toggles
-        self.window_states = {}
-        for window_name in ["Chat", "Create Image", "Read Image"]:
-            self.window_states[window_name] = tk.BooleanVar(value=True)
-            view_menu.add_checkbutton(
-                label=window_name,
-                variable=self.window_states[window_name],
-                command=lambda name=window_name: self.toggle_window(name)
-            )
         
         # Create View menu
         view_menu = tk.Menu(self.menu_bar, tearoff=0)
@@ -353,16 +290,6 @@ class RetroApp(tk.Tk):
         except FileNotFoundError:
             pass  # Use default layout if no saved layout exists
 
-    def show_all_windows(self):
-        for window_name in self.window_states:
-            self.window_states[window_name].set(True)
-            self.toggle_window(window_name)
-    
-    def hide_all_windows(self):
-        for window_name in self.window_states:
-            self.window_states[window_name].set(False)
-            self.toggle_window(window_name)
-    
     def show_all_windows(self):
         for window_name in self.window_states:
             self.window_states[window_name].set(True)
